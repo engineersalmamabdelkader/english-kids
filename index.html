@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#4d96ff">
+<title>English Kids 🦁</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#26325b;--mut:#6b7699;--card:#fff;--line:#d9e4f5;--pri:#4d96ff;--ok:#2fbf71;--bad:#ff5d6c;--gold:#ffb100;--c:#4d96ff}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Fredoka','Trebuchet MS',system-ui,'Segoe UI',Tahoma,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#d6efff,#fff6df 75%) fixed;min-height:100vh;padding-bottom:104px}
+button{font-family:inherit;cursor:pointer;color:inherit}
+input,select{font-family:inherit;font-size:18px;padding:12px;border-radius:14px;border:3px solid var(--line);color:var(--ink);background:#fff}
+#hdr{max-width:760px;margin:0 auto;padding:12px 14px 2px}
+.hrow{display:flex;align-items:center;gap:10px}
+.av{width:54px;height:54px;border-radius:50%;border:3px solid #fff;background:#fff;font-size:30px;box-shadow:0 3px 0 rgba(0,0,0,.12)}
+.pill{background:#fff;border-radius:99px;padding:6px 12px;font-weight:600;box-shadow:0 3px 0 rgba(0,0,0,.08);white-space:nowrap}
+.mut{color:var(--mut);font-size:14px}
+.goal{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:14px;font-weight:600}
+.bar{flex:1;height:12px;background:#fff;border-radius:99px;overflow:hidden;box-shadow:inset 0 0 0 2px var(--line)}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),#ff8a3d);border-radius:99px;transition:width .5s}
+.bar.sm{height:9px;margin-top:6px}
+#app{max-width:760px;margin:0 auto;padding:4px 14px}
+.card{background:var(--card);border-radius:24px;padding:18px;margin:12px 0;box-shadow:0 5px 0 rgba(38,50,91,.08),0 12px 26px rgba(38,50,91,.08)}
+.center{text-align:center}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:12px}
+.btn{background:var(--c,var(--pri));color:#fff;border:0;border-radius:18px;padding:13px 22px;font-size:19px;font-weight:600;box-shadow:0 5px 0 rgba(0,0,0,.2);transition:transform .08s,box-shadow .08s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.2)}
+.btn.alt{background:#fff;color:var(--pri);border:3px solid var(--pri);box-shadow:0 4px 0 var(--line)}
+.btn.sm{padding:8px 14px;font-size:15px;border-radius:14px}
+.btn.mic{background:var(--bad)}
+.btn.rec{background:#c9243a;animation:pulse 1s infinite}
+.btn:disabled{opacity:.5}
+@keyframes pulse{50%{box-shadow:0 0 0 12px rgba(255,93,108,.25)}}
+.emo{font-size:104px;line-height:1.15;cursor:pointer;user-select:none}
+.word{font-size:40px;font-weight:700;margin:6px 0}
+.sent{font-size:27px;font-weight:600;line-height:1.45;margin:8px 0}
+.ar{direction:rtl;font-size:20px;color:var(--mut);margin:4px 0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.opt{border:3px solid var(--line);background:#fff;border-radius:20px;padding:16px 8px;font-size:22px;font-weight:600;box-shadow:0 5px 0 var(--line);min-height:64px}
+.opt.emoopt{font-size:62px;padding:8px}
+.opt.letopt{font-size:46px}
+.opt:active{transform:translateY(3px)}
+.opt.right{border-color:var(--ok);background:#e3f9ec;box-shadow:0 5px 0 var(--ok)}
+.opt.wrong{border-color:var(--bad);background:#ffe9ec;animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.lv{display:flex;gap:14px;align-items:center;width:100%;text-align:left;border:0;border-left:12px solid var(--c);background:#fff;border-radius:22px;padding:14px 16px;margin:12px 0;box-shadow:0 5px 0 rgba(38,50,91,.08),0 12px 26px rgba(38,50,91,.08)}
+.lvE{font-size:46px}
+.tagr{background:var(--gold);color:#fff;border-radius:99px;font-size:12px;padding:2px 9px;vertical-align:middle}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.act{background:#fff;border:3px solid var(--line);border-radius:20px;padding:14px 8px;text-align:center;font-size:17px;font-weight:600;box-shadow:0 5px 0 var(--line)}
+.act.done{border-color:var(--ok);background:#effbf4}
+.act b{display:block;font-size:40px}
+.act .st{font-size:15px;margin-top:2px}
+.bar2{display:flex;align-items:center;gap:12px;margin-top:10px}
+.bar2 b{font-size:20px}
+.stars{font-size:54px;letter-spacing:6px;margin:6px 0}
+.box{min-height:56px;background:#f5f9ff;border:3px dashed var(--line);border-radius:16px;padding:10px;margin-top:12px;font-size:20px;line-height:1.6}
+.ok{color:var(--ok);font-weight:700}.no{color:var(--bad);font-weight:700;text-decoration:underline}
+.tile{border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 14px;font-size:21px;font-weight:600;margin:4px;box-shadow:0 4px 0 var(--line)}
+.slotsA{min-height:68px;border:3px dashed var(--line);border-radius:16px;padding:6px;margin-top:12px;display:flex;flex-wrap:wrap;justify-content:center;align-items:center}
+.sent2{display:flex;gap:8px;align-items:center;padding:10px;border-radius:16px;margin:6px 0;font-size:22px;line-height:1.55;text-align:left}
+.sent2.cur{background:#fff4cc}.sent2.good{background:#e3f9ec}.sent2.bad{background:#ffe9ec}
+.sent2>span{flex:1}
+.sp{border:0;background:#e6f0ff;border-radius:50%;width:42px;height:42px;font-size:20px;flex:none}
+.wd{border-radius:8px;padding:0 3px;cursor:pointer}
+.wd.on{background:var(--gold);color:#fff}
+.abc{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.lt{border:3px solid var(--line);background:#fff;border-radius:16px;padding:8px 2px;box-shadow:0 4px 0 var(--line);font-size:14px}
+.lt b{display:block;font-size:26px}
+.lt.seen{border-color:var(--ok);background:#effbf4}
+.mem{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.mc{height:92px;border-radius:18px;border:3px solid var(--line);background:var(--pri);color:#fff;font-size:34px;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.15);padding:2px}
+.mc.up{background:#fff;color:var(--ink)}
+.mc.m{background:#e3f9ec;border-color:var(--ok);color:var(--ink)}
+.mc.sw{font-size:18px}
+#tabs{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;gap:4px;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:#fff;border-top:3px solid var(--line);z-index:20}
+#tabs button{flex:1;max-width:130px;border:0;background:transparent;border-radius:16px;padding:6px 2px;font-size:12px;font-weight:600;color:var(--mut)}
+#tabs button b{display:block;font-size:26px}
+#tabs button.on{background:#e6f0ff;color:var(--pri)}
+.hide{display:none!important}
+.ov{position:fixed;inset:0;background:rgba(214,239,255,.96);z-index:40;overflow:auto;padding:20px 14px}
+.ov .card{max-width:480px;margin:20px auto}
+.avs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.avs button{font-size:38px;border:3px solid var(--line);background:#fff;border-radius:18px;padding:6px}
+.avs button.on{border-color:var(--pri);background:#e6f0ff}
+.toast{position:fixed;left:50%;top:14px;transform:translateX(-50%) translateY(-80px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:99px;font-weight:600;z-index:60;transition:.3s}
+.toast.show{transform:translateX(-50%)}
+.cf{position:fixed;top:-30px;font-size:28px;animation:fall 2.4s linear forwards;z-index:50;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.stat div{background:#f5f9ff;border-radius:16px;padding:10px;text-align:center;font-weight:600}
+.chart{display:flex;gap:8px;align-items:flex-end;height:110px;margin-top:10px}
+.chart div{flex:1;text-align:center;font-size:12px;color:var(--mut)}
+.chart i{display:block;background:var(--pri);border-radius:8px 8px 0 0;min-height:3px}
+.warn{background:#fff3cd;color:#6b5200;border-radius:14px;padding:10px 14px;font-size:14px;margin:10px 0}
+@media(max-width:420px){.emo{font-size:88px}.word{font-size:34px}.abc{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div id="hdr"></div>
+<div id="app"></div>
+<nav id="tabs">
+  <button data-t="learn" class="on"><b>🏠</b>Learn</button>
+  <button data-t="abc"><b>🔤</b>ABC</button>
+  <button data-t="games"><b>🎮</b>Games</button>
+  <button data-t="talk"><b>🎤</b>Talk</button>
+  <button data-t="me"><b>👤</b>Me</button>
+</nav>
+<div id="ov" class="ov hide"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ================================================================
+   DATA  — 6 levels × units.  w = [word, arabic, emoji]  s = [sentence, arabic]
+   ================================================================ */
+const LEVELS=[
+{n:1,name:"Starter",ar:"البداية",e:"🌱",age:"4–6",c:"#34c47a",units:[
+ {t:"Colors",ar:"الألوان",e:"🎨",
+  w:[["red","أحمر","🔴"],["blue","أزرق","🔵"],["yellow","أصفر","🟡"],["green","أخضر","🟢"],["orange","برتقالي","🟠"],["purple","بنفسجي","🟣"],["black","أسود","⚫"],["white","أبيض","⚪"]],
+  s:[["I like red.","بحب اللون الأحمر."],["The sky is blue.","السما زرقا."],["What color is it?","ده لونه إيه؟"],["The sun is yellow.","الشمس صفرا."]],
+  st:{t:"My Colors",ar:"الطفل بيشوف تفاحة حمرا وضفدعة خضرا وشمس صفرا وسما زرقا.",x:["I see a red apple.","I see a green frog.","I see a yellow sun.","I see a blue sky.","I like colors!"],
+   q:[["What color is the apple?",["red","green","blue"],0],["What is yellow?",["the sun","the frog","the sky"],0]]}},
+ {t:"Animals",ar:"الحيوانات",e:"🐶",
+  w:[["dog","كلب","🐶"],["cat","قطة","🐱"],["bird","عصفور","🐦"],["fish","سمكة","🐟"],["cow","بقرة","🐮"],["horse","حصان","🐴"],["duck","بطة","🦆"],["rabbit","أرنب","🐰"]],
+  s:[["I have a dog.","عندي كلب."],["The cat is small.","القطة صغيرة."],["Ducks can swim.","البط بيعرف يعوم."],["I love animals.","بحب الحيوانات."]],
+  st:{t:"The Pet Shop",ar:"توم عنده قطة سودا وسمكة برتقالي وبيحب حيواناته.",x:["Tom has a cat.","The cat is black.","Tom has a fish.","The fish is orange.","Tom loves his pets."],
+   q:[["Who has a cat?",["Tom","Sara","Mom"],0],["What color is the fish?",["orange","blue","white"],0]]}},
+ {t:"Numbers",ar:"الأرقام",e:"🔢",
+  w:[["one","واحد","1️⃣"],["two","اتنين","2️⃣"],["three","تلاتة","3️⃣"],["four","أربعة","4️⃣"],["five","خمسة","5️⃣"],["six","ستة","6️⃣"],["seven","سبعة","7️⃣"],["eight","تمانية","8️⃣"]],
+  s:[["I am five.","أنا عندي خمس سنين."],["I have two eyes.","عندي عينين."],["Count with me.","عدّ معايا."],["Three little birds.","تلات عصافير صغيرين."]],
+  st:{t:"Counting Fun",ar:"بنعد الأشياء من واحد لخمسة.",x:["One sun.","Two eyes.","Three birds.","Four apples.","Five fingers.","I can count to five!"],
+   q:[["How many eyes?",["two","three","one"],0],["How many birds?",["three","four","five"],0]]}},
+ {t:"My Body",ar:"جسمي",e:"🖐️",
+  w:[["eye","عين","👁️"],["ear","ودن","👂"],["nose","مناخير","👃"],["mouth","فم","👄"],["hand","إيد","✋"],["foot","قدم","🦶"],["leg","رجل","🦵"],["arm","دراع","💪"]],
+  s:[["This is my nose.","ده مناخيري."],["I have two hands.","عندي إيدين."],["Touch your head.","المس راسك."],["I see with my eyes.","بشوف بعينيا."]],
+  st:{t:"Simon Says",ar:"الطفل بيلمس مناخيره وودانه ويصقف بإيديه ويدوس برجليه.",x:["Touch your nose.","Touch your ears.","Clap your hands.","Stamp your feet.","Open your mouth.","Smile! Good job!"],
+   q:[["What do you clap?",["hands","feet","ears"],0],["What do you stamp?",["feet","hands","nose"],0]]}}
+]},
+{n:2,name:"Beginner",ar:"مبتدئ",e:"🌿",age:"5–7",c:"#2f9bff",units:[
+ {t:"Family",ar:"العيلة",e:"👨‍👩‍👧",
+  w:[["mom","ماما","👩"],["dad","بابا","👨"],["brother","أخ","👦"],["sister","أخت","👧"],["baby","طفل رضيع","👶"],["grandma","تيتة","👵"],["grandpa","جدو","👴"],["friend","صاحب","🧑‍🤝‍🧑"]],
+  s:[["This is my mom.","دي ماما."],["I have one sister.","عندي أخت واحدة."],["My dad is tall.","بابا طويل."],["We are a happy family.","احنا عيلة سعيدة."]],
+  st:{t:"My Family",ar:"الطفل عنده عيلة كبيرة: ماما طيبة وبابا بيضحك وأخ صغير اسمه عمر.",x:["I have a big family.","My mom is kind.","My dad is funny.","I have a baby brother.","His name is Omar.","We love each other."],
+   q:[["Who is funny?",["my dad","my mom","Omar"],0],["What is the baby's name?",["Omar","Ali","Tom"],0]]}},
+ {t:"Food",ar:"الأكل",e:"🍎",
+  w:[["apple","تفاحة","🍎"],["banana","موزة","🍌"],["bread","عيش","🍞"],["milk","لبن","🥛"],["egg","بيضة","🥚"],["rice","رز","🍚"],["cheese","جبنة","🧀"],["water","مية","💧"]],
+  s:[["I eat an apple.","باكل تفاحة."],["I drink milk.","بشرب لبن."],["I am hungry.","أنا جعان."],["Can I have some water?","ممكن شوية مية؟"]],
+  st:{t:"Breakfast",ar:"الطفل جعان في الصبح فبياكل عيش وجبنة وبيشرب لبن، وماما بتاكل بيضة.",x:["It is morning.","I am hungry.","I eat bread and cheese.","I drink milk.","Mom eats an egg.","Breakfast is yummy!"],
+   q:[["What does the child drink?",["milk","juice","tea"],0],["Who eats an egg?",["Mom","Dad","the child"],0]]}},
+ {t:"School",ar:"المدرسة",e:"🎒",
+  w:[["book","كتاب","📚"],["pencil","قلم رصاص","✏️"],["bag","شنطة","🎒"],["teacher","مدرس","👩‍🏫"],["school","مدرسة","🏫"],["ruler","مسطرة","📏"],["chair","كرسي","🪑"],["scissors","مقص","✂️"]],
+  s:[["I go to school.","بروح المدرسة."],["Open your book.","افتح كتابك."],["I need a pencil.","محتاج قلم رصاص."],["My teacher is nice.","مدرّسي لطيف."]],
+  st:{t:"My School Bag",ar:"شنطة المدرسة حمرا وفيها كتاب وقلم رصاص ومسطرة.",x:["I have a school bag.","It is red.","I have a book and a pencil in my bag.","I have a ruler too.","I go to school with my friend."],
+   q:[["What color is the bag?",["red","blue","green"],0],["What is in the bag?",["a book and a pencil","a cat","an apple"],0]]}}
+]},
+{n:3,name:"Elementary",ar:"ابتدائي",e:"🌳",age:"6–8",c:"#ffa51f",units:[
+ {t:"Actions",ar:"الأفعال",e:"🏃",
+  w:[["run","يجري","🏃"],["jump","يقفز","🤸"],["swim","يعوم","🏊"],["sleep","ينام","😴"],["read","يقرأ","📖"],["write","يكتب","✍️"],["sing","يغني","🎤"],["play","يلعب","⚽"]],
+  s:[["I can run fast.","أقدر أجري بسرعة."],["She can swim.","هي تعرف تعوم."],["They are playing football.","هما بيلعبوا كورة."],["He is sleeping.","هو نايم."]],
+  st:{t:"A Busy Day",ar:"يوم مشغول: الطفل بيصحى الساعة سبعة، يروح المدرسة، يلعب مع صحابه، وفي الليل يقرا وينام.",x:["I wake up at seven.","I brush my teeth.","I eat breakfast and go to school.","After school, I play with my friends.","At night, I read a book and sleep."],
+   q:[["When does the child wake up?",["at seven","at eight","at six"],0],["What does the child do at night?",["reads a book","plays football","swims"],0]]}},
+ {t:"Places",ar:"الأماكن",e:"🏙️",
+  w:[["house","بيت","🏠"],["park","حديقة","🌳"],["shop","محل","🏪"],["hospital","مستشفى","🏥"],["farm","مزرعة","🚜"],["beach","شاطئ","🏖️"],["airport","مطار","✈️"],["zoo","حديقة حيوان","🦁"]],
+  s:[["Let's go to the park.","يلا نروح الحديقة."],["I live in a big house.","أنا عايش في بيت كبير."],["We went to the beach.","احنا روحنا الشاطئ."],["Where is the shop?","فين المحل؟"]],
+  st:{t:"A Day at the Zoo",ar:"النهاردة رحنا حديقة الحيوان وشفنا أسد كبير وقرود مضحكة.",x:["Today we go to the zoo.","We see a big lion.","We see monkeys and elephants.","The monkeys are funny.","I take many photos.","It is a great day!"],
+   q:[["Where do they go?",["the zoo","the beach","the park"],0],["Who is funny?",["the monkeys","the lion","the elephants"],0]]}},
+ {t:"Weather",ar:"الجو",e:"⛅",
+  w:[["sunny","مشمس","☀️"],["rainy","ممطر","🌧️"],["cloudy","غائم","☁️"],["snowy","تلج","❄️"],["windy","فيه هوا","💨"],["hot","حر","🥵"],["cold","برد","🥶"],["umbrella","شمسية","☂️"]],
+  s:[["It is sunny today.","النهاردة الجو مشمس."],["I need an umbrella.","محتاج شمسية."],["It is very cold.","الجو برد جدًا."],["What is the weather like?","الجو عامل إزاي؟"]],
+  st:{t:"Rainy Day",ar:"النهاردة بتمطر، الطفل لبس جاكيت أصفر وقفز في المية وماما ضحكت.",x:["It is rainy today.","I take my umbrella.","I wear a yellow coat.","I jump in the water.","My shoes are wet!","Mom laughs."],
+   q:[["What is the weather?",["rainy","sunny","snowy"],0],["What color is the coat?",["yellow","red","green"],0]]}}
+]},
+{n:4,name:"Pre-Intermediate",ar:"قبل المتوسط",e:"🌲",age:"7–9",c:"#ff6b6b",units:[
+ {t:"Feelings",ar:"المشاعر",e:"😊",
+  w:[["happy","سعيد","😊"],["sad","حزين","😢"],["angry","غضبان","😠"],["tired","تعبان","🥱"],["scared","خايف","😨"],["excited","متحمس","🤩"],["hungry","جعان","🤤"],["proud","فخور","😌"]],
+  s:[["I feel happy when I play.","بحس بسعادة لما بلعب."],["Why are you sad?","ليه إنت زعلان؟"],["She was scared of the dark.","كانت خايفة من الضلمة."],["I am proud of my work.","أنا فخور بشغلي."]],
+  st:{t:"The Lost Puppy",ar:"سارة لقت كلب صغير تايه في الحديقة، خدته البيت وإدّته لبن وسمّته لاكي.",x:["Yesterday, Sara found a small puppy in the park.","The puppy was cold and scared.","Sara took it home and gave it some milk.","Soon, the puppy was happy.","Sara named him Lucky."],
+   q:[["Where did Sara find the puppy?",["in the park","at school","at home"],0],["What did Sara give the puppy?",["milk","bread","water"],0],["How was the puppy at the end?",["happy","sad","angry"],0]]}},
+ {t:"Jobs",ar:"الوظائف",e:"👩‍⚕️",
+  w:[["doctor","دكتور","👩‍⚕️"],["teacher","مدرس","👩‍🏫"],["engineer","مهندس","👷"],["pilot","طيار","👨‍✈️"],["chef","شيف","👨‍🍳"],["farmer","فلاح","🧑‍🌾"],["police officer","ضابط شرطة","👮"],["artist","فنان","🧑‍🎨"]],
+  s:[["My mother is a doctor.","ماما دكتورة."],["What do you want to be?","نفسك تبقى إيه؟"],["I want to be a pilot.","عايز أبقى طيار."],["Engineers build bridges.","المهندسين بيبنوا كباري."]],
+  st:{t:"When I Grow Up",ar:"علي عايز يبقى مهندس لأنه بيحب الرسم والرياضة، وبيبني بيوت صغيرة بالمكعبات.",x:["My name is Ali.","When I grow up, I want to be an engineer.","Engineers solve problems and build things.","I like drawing and I love math.","Every weekend, I build small houses with blocks.","One day I will build a big bridge."],
+   q:[["What does Ali want to be?",["an engineer","a pilot","a chef"],0],["What does he build at weekends?",["small houses","cars","boats"],0],["What will he build one day?",["a big bridge","a school","a rocket"],0]]}},
+ {t:"Transport",ar:"المواصلات",e:"🚌",
+  w:[["car","عربية","🚗"],["bus","أتوبيس","🚌"],["train","قطر","🚆"],["plane","طيارة","✈️"],["bike","عجلة","🚲"],["boat","مركب","⛵"],["taxi","تاكسي","🚕"],["rocket","صاروخ","🚀"]],
+  s:[["Turn left at the shop.","لف شمال عند المحل."],["Go straight.","امشي على طول."],["How do I get to the station?","أوصل للمحطة إزاي؟"],["The bus stops here.","الأتوبيس بيقف هنا."]],
+  st:{t:"The Train Trip",ar:"الصيف اللي فات سافرنا إسكندرية بالقطر، وشفنا حقول خضرا، وعمي كان مستنينا في المحطة.",x:["Last summer, we traveled by train to Alexandria.","The train was fast and comfortable.","We looked out of the window and saw green fields.","After three hours, we arrived at the station.","My uncle was waiting for us with a big smile."],
+   q:[["How did they travel?",["by train","by bus","by plane"],0],["How long was the trip?",["three hours","one hour","five hours"],0],["Who was waiting for them?",["my uncle","my teacher","my friend"],0]]}}
+]},
+{n:5,name:"Intermediate",ar:"متوسط",e:"🌴",age:"9–11",c:"#9b5de5",units:[
+ {t:"Hobbies & Opinions",ar:"الهوايات والرأي",e:"🎨",
+  w:[["reading","القراءة","📚"],["painting","الرسم","🎨"],["football","كرة القدم","⚽"],["chess","الشطرنج","♟️"],["cooking","الطبخ","🍳"],["photography","التصوير","📷"],["gaming","الألعاب","🎮"],["cycling","ركوب العجل","🚴"]],
+  s:[["I'm really into painting.","أنا بحب الرسم جدًا."],["Which do you prefer, chess or football?","بتفضل إيه، الشطرنج ولا الكورة؟"],["I have played chess since I was six.","بلعب شطرنج من وأنا عندي ست سنين."],["In my opinion, reading is the best hobby.","في رأيي القراءة أحسن هواية."]],
+  st:{t:"The Chess Club",ar:"كريم دخل نادي الشطرنج وخسر في الأول، بس تمرّن كل يوم وكسب البطل، وتعلم إن التعب بيجيب نتيجة.",x:["Last month, Karim joined the school chess club.","At first, he lost every game, but he never gave up.","He practiced every evening and watched videos about strategy.","Yesterday, he finally beat the club champion.","Karim learned that hard work really pays off."],
+   q:[["What did Karim join?",["the chess club","the art club","the football team"],0],["How did he improve?",["He practiced every evening.","He stopped playing.","He changed schools."],0],["What did Karim learn?",["Hard work pays off.","Games are boring.","Winning is easy."],0]]}},
+ {t:"Planet & Science",ar:"الكوكب والعلوم",e:"🌍",
+  w:[["planet","كوكب","🪐"],["recycle","يعيد التدوير","♻️"],["energy","طاقة","⚡"],["plant","نبات","🌱"],["ocean","محيط","🌊"],["volcano","بركان","🌋"],["magnet","مغناطيس","🧲"],["telescope","تلسكوب","🔭"]],
+  s:[["We should recycle plastic.","المفروض نعمل إعادة تدوير للبلاستيك."],["Plants need water and sunlight.","النباتات محتاجة مية وشمس."],["The ocean is home to millions of animals.","المحيط بيت لملايين الحيوانات."],["Scientists use telescopes to study space.","العلماء بيستخدموا التلسكوب لدراسة الفضاء."]],
+  st:{t:"Save Our Planet",ar:"كوكبنا جميل بس محتاج مساعدتنا: نعمل إعادة تدوير، نقلل الطاقة، ونزرع شجر.",x:["Our planet is beautiful, but it needs our help.","Every day, people throw away too much plastic, and it ends up in the ocean.","If we recycle bottles and use less energy, we can protect nature.","Children can help too.","Start small: turn off the lights, plant a tree, and tell your friends."],
+   q:[["Where does the plastic end up?",["in the ocean","in the sky","in the desert"],0],["How can we protect nature?",["recycle and use less energy","use more plastic","cut down trees"],0],["Can children help?",["yes, they can","no, they can't","only teachers can"],0]]}},
+ {t:"Travel & Tech",ar:"السفر والتكنولوجيا",e:"🧳",
+  w:[["passport","جواز سفر","🛂"],["ticket","تذكرة","🎫"],["luggage","شنط السفر","🧳"],["hotel","فندق","🏨"],["map","خريطة","🗺️"],["robot","روبوت","🤖"],["internet","إنترنت","🌐"],["password","كلمة السر","🔑"]],
+  s:[["I'd like to book a room, please.","عايز أحجز غرفة لو سمحت."],["Don't share your password with anyone.","متشاركش كلمة السر مع حد."],["Could you show me on the map?","ممكن تورّيني على الخريطة؟"],["Robots will help us in the future.","الروبوتات هتساعدنا في المستقبل."]],
+  st:{t:"A Trip to London",ar:"العيلة هتسافر لندن الشهر الجاي، جهزوا الشنط والجواز وهيقعدوا في فندق جنب النهر.",x:["My family is going to travel to London next month.","I have already packed my luggage and checked my passport.","We will stay in a hotel near the river.","I am going to visit a big museum and practice my English with local people.","I can't wait!"],
+   q:[["When are they traveling?",["next month","tomorrow","next year"],0],["Where will they stay?",["in a hotel near the river","with friends","in a tent"],0],["Why will the child practice English?",["to talk with local people","to pass an exam","to teach a class"],0]]}}
+]},
+{n:6,name:"Pro",ar:"محترف",e:"🏆",age:"10–12+",c:"#0fb5a6",units:[
+ {t:"Idioms",ar:"تعبيرات",e:"💬",
+  w:[["piece of cake","سهلة جدًا","🍰"],["break a leg","حظ سعيد","🍀"],["under the weather","تعبان شوية","🤒"],["once in a blue moon","نادرًا جدًا","🌙"],["hit the books","يذاكر بجد","📚"],["cost an arm and a leg","غالي جدًا","💸"],["spill the beans","يفضح السر","🫘"],["on cloud nine","طاير من الفرحة","🥳"]],
+  s:[["The exam was a piece of cake.","الامتحان كان سهل جدًا."],["I'm feeling a bit under the weather today.","أنا تعبان شوية النهاردة."],["Good luck with your presentation. Break a leg!","بالتوفيق في العرض. حظ سعيد!"],["Don't spill the beans about the surprise party.","متفضحش سر حفلة المفاجأة."]],
+  st:{t:"The Big Presentation",ar:"نور قدّمت عرض عن الروبوتات قدّام الفصل، كانت متوترة بس اتكلمت بوضوح والكل صقّف.",x:["Yesterday, Nour gave a presentation about robots in front of the whole class.","She was nervous, but she took a deep breath and started speaking clearly.","At the end, everyone clapped, and her teacher said it was one of the best presentations ever.","Nour realized that confidence comes with practice."],
+   q:[["What was the presentation about?",["robots","animals","space"],0],["How did Nour feel at first?",["nervous","bored","angry"],0],["What does confidence come with?",["practice","luck","money"],0]]}},
+ {t:"Debate Skills",ar:"مهارات النقاش",e:"⚖️",
+  w:[["advantage","ميزة","➕"],["disadvantage","عيب","➖"],["agree","يوافق","👍"],["disagree","يعارض","👎"],["opinion","رأي","💭"],["evidence","دليل","🔍"],["solution","حل","💡"],["conclusion","خلاصة","🏁"]],
+  s:[["I strongly believe that homework should be limited.","أنا مقتنع جدًا إن الواجب لازم يتقلل."],["On the one hand, technology helps us learn.","من ناحية، التكنولوجيا بتساعدنا نتعلم."],["However, too much screen time can be harmful.","لكن الإفراط في الشاشات ممكن يضر."],["In conclusion, we need a healthy balance.","في الخلاصة، محتاجين توازن صحي."]],
+  st:{t:"Should Kids Have Phones?",ar:"ناس شايفة إن الموبايل بيربط العيلة، وناس تانية خايفة يشتت الأطفال؛ والحل قاعدة واضحة في البيت.",x:["Many people argue about whether children should have mobile phones.","Supporters say phones keep families connected and help students find information quickly.","On the other hand, critics warn that phones can distract children from studying and sleeping.","In my opinion, the best solution is a clear family rule: use phones wisely and never during meals."],
+   q:[["What do supporters say?",["Phones keep families connected.","Phones are useless.","Phones are free."],0],["What do critics worry about?",["distraction from studying and sleeping","high prices","bad cameras"],0],["What is the writer's solution?",["a clear family rule","banning all phones","buying new phones"],0]]}},
+ {t:"Leadership",ar:"القيادة",e:"👑",
+  w:[["courage","شجاعة","🦁"],["kindness","لطف","💛"],["teamwork","عمل جماعي","🤝"],["honesty","أمانة","✅"],["patience","صبر","⏳"],["leader","قائد","👑"],["mission","مهمة","🎯"],["creativity","إبداع","🎨"]],
+  s:[["A good leader listens to everyone.","القائد الكويس بيسمع للكل."],["Teamwork makes the dream work.","العمل الجماعي بيحقق الأحلام."],["It takes courage to tell the truth.","محتاج شجاعة عشان تقول الحقيقة."],["Although it was difficult, she never gave up.","رغم إنه كان صعب، هي ما استسلمتش."]],
+  st:{t:"The Little Lighthouse Keeper",ar:"مريم كانت بتنوّر الفنار كل ليلة، ولما انكسر المصباح في العاصفة استخدمت مرايات وشمع وأنقذت السفن.",x:["Long ago, a young girl named Mariam lived beside a stormy sea.","Every night, she climbed the lighthouse and lit the lamp so that ships could find their way home.","One night, a terrible storm broke the old lamp.","Instead of panicking, Mariam used mirrors and candles to send light across the waves.","By morning, every ship had arrived safely, and the whole town celebrated her bravery."],
+   q:[["Why did Mariam light the lamp?",["so ships could find their way","to read a book","to cook dinner"],0],["What did she use when the lamp broke?",["mirrors and candles","a phone","a flashlight"],0],["What did the town celebrate?",["her bravery","a holiday","a birthday"],0]]}}
+]}
+];
+const ALPHA=[["A","apple","🍎"],["B","ball","⚽"],["C","cat","🐱"],["D","dog","🐶"],["E","egg","🥚"],["F","fish","🐟"],["G","grapes","🍇"],["H","hat","🎩"],["I","ice cream","🍦"],["J","juice","🧃"],["K","kite","🪁"],["L","lion","🦁"],["M","moon","🌙"],["N","nose","👃"],["O","orange","🍊"],["P","pig","🐷"],["Q","queen","👸"],["R","rabbit","🐰"],["S","sun","☀️"],["T","tree","🌳"],["U","umbrella","☂️"],["V","van","🚐"],["W","watermelon","🍉"],["X","fox","🦊"],["Y","yo-yo","🪀"],["Z","zebra","🦓"]];
+const TALK=[
+ {tgt:3,sec:20,p:[["What is your name?","اسمك إيه؟"],["What color do you like?","بتحب أنهي لون؟"],["Do you have a pet?","عندك حيوان أليف؟"]]},
+ {tgt:6,sec:30,p:[["Tell me about your family.","احكيلي عن عيلتك."],["What do you eat for breakfast?","بتاكل إيه في الفطار؟"],["What is in your school bag?","إيه اللي في شنطة المدرسة؟"]]},
+ {tgt:12,sec:40,p:[["Tell me about your day.","احكيلي عن يومك."],["Where do you like to go with your family?","بتحب تروح فين مع عيلتك؟"],["What do you do when it rains?","بتعمل إيه لما تمطر؟"]]},
+ {tgt:20,sec:45,p:[["How do you feel today, and why?","حاسس بإيه النهاردة وليه؟"],["What do you want to be when you grow up?","نفسك تبقى إيه لما تكبر؟"],["Tell me about a trip you took.","احكيلي عن رحلة سافرتها."]]},
+ {tgt:30,sec:60,p:[["What is your favorite hobby, and why do you like it?","إيه هوايتك المفضلة وليه بتحبها؟"],["How can we protect our planet?","نحمي كوكبنا إزاي؟"],["Describe your dream vacation.","اوصف إجازة أحلامك."]]},
+ {tgt:45,sec:60,p:[["Give a short speech: why is reading important?","اعمل خطبة قصيرة: ليه القراءة مهمة؟"],["Do you think children should use phones? Explain your opinion.","تفتكر الأطفال يستخدموا موبايل؟ اشرح رأيك."],["Tell a story about a brave person.","احكي قصة عن شخص شجاع."]]}
+];
+const ACTS=[['learn','🃏','Learn Words'],['pick','👂','Listen & Pick'],['say','🗣️','Say It'],['read','📖','Read a Story'],['build','🧩','Build a Sentence']];
+const MODES={1:['pic','word'],2:['pic','word'],3:['pic','word','ar'],4:['pic','word','ar'],5:['word','ar','pic'],6:['word','ar','pic']};
+const TITLES=[[0,'Seedling 🌱'],[10,'Explorer 🧭'],[30,'Reader 📖'],[60,'Speaker 🎤'],[100,'Super Star 🌟'],[160,'Champion 🏆'],[250,'Legend 👑']];
+const AVATARS=['🦁','🐼','🦊','🐯','🐸','🐵','🦄','🐙','🐰','🐻','🐧','🦉'];
+const TIPS=["Tap 🔊 to listen first!","Say it out loud — it's okay to make mistakes! 💪","A little every day makes you a star ⭐","Listen, repeat, and smile 😊"];
+
+/* ================================================================
+   STATE
+   ================================================================ */
+const K='englishKids.v1';
+let R={profiles:{},cur:null,set:{ar:true,rate:0.8}};
+try{const x=JSON.parse(localStorage.getItem(K)||'{}');if(x&&typeof x==='object')R=Object.assign(R,x)}catch(e){}
+R.set=Object.assign({ar:true,rate:0.8},R.set||{});R.profiles=R.profiles||{};
+let P=null,tab='learn',LS={lvl:null,unit:null},tok=0,curRec=null,gLv=1,talkLv=null,talkIdx=0;
+const saveR=()=>{try{localStorage.setItem(K,JSON.stringify(R))}catch(e){}};
+function fixP(p){p.done=p.done||{};p.days=p.days||{};p.act=p.act||{};p.stars=p.stars||0;p.start=p.start||1;return p}
+
+/* ================================================================
+   HELPERS
+   ================================================================ */
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const pad=n=>String(n).padStart(2,'0');
+const dkey=d=>d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
+const today=()=>dkey(new Date());
+let toastT;function toast(t){const e=$('toast');e.textContent=t;e.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>e.classList.remove('show'),1800)}
+function confetti(){const em=['⭐','🎉','🌟','✨','🎈','🦁','🎊'];for(let i=0;i<28;i++){const s=document.createElement('span');s.className='cf';s.textContent=em[i%em.length];s.style.left=Math.random()*100+'vw';s.style.animationDelay=Math.random()*.6+'s';document.body.appendChild(s);setTimeout(()=>s.remove(),3300)}}
+let AC;function tone(f,d,t=0){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f;o.connect(g);g.connect(AC.destination);const s=AC.currentTime+t;g.gain.setValueAtTime(.001,s);g.gain.exponentialRampToValueAtTime(.12,s+.02);g.gain.exponentialRampToValueAtTime(.001,s+d);o.start(s);o.stop(s+d+.05)}catch(e){}}
+const beep=ok=>ok?(tone(660,.12),tone(880,.18,.1)):tone(200,.3);
+const total=()=>P?P.stars:0;
+const titleOf=n=>{let t=TITLES[0][1];TITLES.forEach(x=>{if(n>=x[0])t=x[1]});return t};
+function streak(){let n=0,d=new Date();if(!P.days[dkey(d)])d.setDate(d.getDate()-1);while(P.days[dkey(d)]){n++;d.setDate(d.getDate()-1)}return n}
+function markDay(){P.days[today()]=1;P.act[today()]=(P.act[today()]||0)+1}
+function award(key,s){const prev=P.done[key]||0;if(s>prev){P.stars+=s-prev;P.done[key]=s}markDay();saveR();renderHdr()}
+const lvProg=n=>{const L=LEVELS[n-1];let s=0;L.units.forEach((u,i)=>ACTS.forEach(a=>s+=P.done['u'+n+'-'+i+':'+a[0]]||0));return{s,max:L.units.length*ACTS.length*3}};
+function recLevel(){for(let n=P.start;n<=6;n++){const p=lvProg(n);if(p.s/p.max<.6)return n}return 6}
+const curU=()=>LEVELS[LS.lvl-1].units[LS.unit];
+const ukey=a=>'u'+LS.lvl+'-'+LS.unit+':'+a;
+
+/* ---------- speech ---------- */
+let voices=[];function loadV(){try{voices=speechSynthesis.getVoices()}catch(e){}}
+if('speechSynthesis' in window){loadV();speechSynthesis.onvoiceschanged=loadV}
+function voice(){const en=voices.filter(v=>/^en[-_]US/i.test(v.lang));return en.find(v=>/Samantha|Aria|Jenny|Zira|Google US English|Natural|Female/i.test(v.name))||en[0]||voices.find(v=>/^en/i.test(v.lang))}
+function utter(text,rate){const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=rate||R.set.rate;u.pitch=1.12;const v=voice();if(v)u.voice=v;return u}
+function say(t,rate){if(!window.speechSynthesis)return;try{speechSynthesis.cancel();speechSynthesis.speak(utter(t,rate))}catch(e){}}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function listen(o){
+  const r=new SR();r.lang='en-US';r.interimResults=true;r.continuous=!!o.cont;r.maxAlternatives=3;
+  let fin='',alts=[],ended=false,tm;
+  const finish=()=>{if(ended)return;ended=true;clearTimeout(tm);o.done(fin.trim(),alts)};
+  r.onresult=e=>{let it='';for(let i=e.resultIndex;i<e.results.length;i++){const res=e.results[i];if(res.isFinal){fin+=res[0].transcript+' ';for(let k=0;k<res.length;k++)alts.push(res[k].transcript)}else it+=res[0].transcript}if(o.interim)o.interim(fin,it)};
+  r.onend=finish;
+  r.onerror=e=>{if(e.error==='not-allowed'||e.error==='service-not-allowed')toast('🎤 اسمحوا للمتصفح يستخدم الميكروفون')};
+  tm=setTimeout(()=>{try{r.stop()}catch(e){}},o.max||7000);
+  try{r.start()}catch(e){finish()}
+  return{stop:()=>{try{r.stop()}catch(e){}},abort:()=>{ended=true;clearTimeout(tm);try{r.abort()}catch(e){}}}
+}
+function stopAll(){tok++;try{speechSynthesis.cancel()}catch(e){}if(curRec){try{curRec.abort()}catch(e){}curRec=null}}
+const NUM=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen','twenty'];
+const norm=s=>String(s).toLowerCase().replace(/[’‘]/g,"'").replace(/\b(\d+)\b/g,(m,n)=>NUM[+n]||m).replace(/[^a-z' ]/g,' ').split(/\s+/).filter(Boolean);
+function lev(a,b){const m=a.length,n=b.length,d=[];for(let i=0;i<=m;i++){d[i]=[i];for(let j=1;j<=n;j++)d[i][j]=i?0:j}for(let i=1;i<=m;i++)for(let j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[m][n]}
+function match(target,said){const T=norm(target),W=norm(said),used=W.map(()=>false);let hit=0;
+  const marks=T.map(t=>{const j=W.findIndex((w,i)=>!used[i]&&(w===t||(t.length>3&&lev(w,t)<=1)));if(j>=0){used[j]=true;hit++;return[t,1]}return[t,0]});
+  return{pct:T.length?Math.round(hit/T.length*100):0,marks}}
+function bestMatch(target,said,alts){let b=match(target,said);(alts||[]).forEach(a=>{const m=match(target,a);if(m.pct>b.pct)b=m});return b}
+const marksHtml=m=>m.marks.map(x=>`<span class="${x[1]?'ok':'no'}">${esc(x[0])}</span>`).join(' ');
+
+/* ================================================================
+   HEADER / TABS / SETUP
+   ================================================================ */
+function renderHdr(){
+  if(!P){$('hdr').innerHTML='';return}
+  const g=Math.min(3,P.act[today()]||0);
+  $('hdr').innerHTML=`<div class="hrow"><button class="av" onclick="showSwitch()">${P.av}</button><div style="flex:1;min-width:0"><b>${esc(P.name)}</b><div class="mut">${titleOf(total())}</div></div><span class="pill">⭐ ${total()}</span><span class="pill">🔥 ${streak()}</span></div><div class="goal"><span>🎯 Today ${g}/3</span><div class="bar"><i style="width:${g/3*100}%"></i></div></div>`;
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>go(b.dataset.t));
+function go(t){
+  stopAll();tab=t;
+  document.querySelectorAll('#tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  if(!P)return;
+  ({learn:showLearn,abc:showABC,games:showGames,talk:showTalk,me:showMe})[t]();
+  window.scrollTo(0,0);
+}
+function showSetup(first){
+  let av=AVATARS[0];
+  $('ov').classList.remove('hide');
+  $('ov').innerHTML=`<div class="card center"><div style="font-size:64px">🦁</div><h2 style="margin:4px 0">${first?'Welcome to English Kids!':'New child'}</h2>
+   <div class="ar">اكتب اسم الطفل واختار شكله</div>
+   <input id="suName" placeholder="Name / الاسم" maxlength="16" style="width:100%;margin-top:10px">
+   <div class="avs" id="suAv">${AVATARS.map((a,i)=>`<button data-a="${a}" class="${i?'':'on'}">${a}</button>`).join('')}</div>
+   <div class="mut" style="text-align:left">Start level · مستوى البداية</div>
+   <select id="suLv" style="width:100%;margin-top:6px">${LEVELS.map(L=>`<option value="${L.n}">${L.e} Level ${L.n} · ${L.name} (ages ${L.age})</option>`).join('')}</select>
+   <div class="row"><button class="btn" id="suGo">Let's go! 🚀</button>${first?'':'<button class="btn alt" id="suX">Cancel</button>'}</div></div>`;
+  document.querySelectorAll('#suAv button').forEach(b=>b.onclick=()=>{av=b.dataset.a;document.querySelectorAll('#suAv button').forEach(x=>x.classList.toggle('on',x===b))});
+  if($('suX'))$('suX').onclick=()=>$('ov').classList.add('hide');
+  $('suGo').onclick=()=>{
+    const name=$('suName').value.trim();if(!name){toast('اكتب الاسم الأول ✏️');return}
+    const id='p'+Date.now();R.profiles[id]=fixP({id,name,av,start:+$('suLv').value,created:Date.now()});R.cur=id;saveR();
+    P=R.profiles[id];$('ov').classList.add('hide');LS={lvl:null,unit:null};talkLv=null;renderHdr();go('learn');
+  };
+}
+function showSwitch(){
+  const ids=Object.keys(R.profiles);
+  $('ov').classList.remove('hide');
+  $('ov').innerHTML=`<div class="card center"><h2 style="margin:0 0 8px">Who is learning?</h2>${ids.map(id=>{const p=R.profiles[id];return `<button class="lv" style="--c:${id===R.cur?'#34c47a':'#d9e4f5'}" data-id="${id}"><span class="lvE">${p.av}</span><b style="flex:1">${esc(p.name)}</b><span class="mut">⭐ ${p.stars}</span></button>`}).join('')}
+   <div class="row"><button class="btn" id="swAdd">➕ Add a child</button><button class="btn alt" id="swX">Close</button></div></div>`;
+  document.querySelectorAll('#ov .lv').forEach(b=>b.onclick=()=>{R.cur=b.dataset.id;P=R.profiles[R.cur];saveR();$('ov').classList.add('hide');LS={lvl:null,unit:null};talkLv=null;renderHdr();go('learn')});
+  $('swAdd').onclick=()=>showSetup(false);$('swX').onclick=()=>$('ov').classList.add('hide');
+}
+const backBar=(fn,title)=>`<div class="bar2"><button class="btn alt sm" onclick="${fn}">⬅</button><b>${title}</b></div>`;
+
+/* ================================================================
+   LEARN: levels → units → activities
+   ================================================================ */
+function showLearn(){if(LS.unit!=null)showUnit();else if(LS.lvl!=null)showLevel();else showLevels()}
+function showLevels(){
+  LS={lvl:null,unit:null};const rec=recLevel();
+  $('app').innerHTML=`<div class="card center"><div style="font-size:54px">🦁</div><b style="font-size:21px">Hi ${esc(P.name)}! Let's learn English!</b>${R.set.ar?'<div class="ar">اختار مستوى وابدأ، وكل نشاط بيديك نجوم ⭐</div>':''}<div class="mut" style="margin-top:6px">${pick(TIPS)}</div></div>`+
+  LEVELS.map(L=>{const p=lvProg(L.n);return `<button class="lv" style="--c:${L.c}" onclick="openLevel(${L.n})"><span class="lvE">${L.e}</span><span style="flex:1;min-width:0"><b>Level ${L.n} · ${L.name}</b>${L.n===rec?' <span class="tagr">⭐ Start here</span>':''}<div class="mut">${L.ar} · Ages ${L.age}</div><div class="bar sm"><i style="width:${p.s/p.max*100}%;background:${L.c}"></i></div></span><span class="mut">${p.s}/${p.max}⭐</span></button>`}).join('');
+}
+function openLevel(n){LS={lvl:n,unit:null};showLevel()}
+function showLevel(){
+  const L=LEVELS[LS.lvl-1];
+  $('app').innerHTML=backBar('showLevels()',`${L.e} Level ${L.n} · ${L.name}`)+
+  L.units.map((u,i)=>{const st=ACTS.reduce((s,a)=>s+(P.done['u'+L.n+'-'+i+':'+a[0]]||0),0);return `<button class="lv" style="--c:${L.c}" onclick="openUnit(${i})"><span class="lvE">${u.e}</span><span style="flex:1"><b>${u.t}</b><div class="mut">${u.ar}</div><div>${ACTS.map(a=>(P.done['u'+L.n+'-'+i+':'+a[0]]?'🟢':'⚪')).join(' ')}</div></span><span class="mut">${st}/15⭐</span></button>`}).join('')+
+  `<button class="lv" style="--c:#ff6b6b" onclick="talkLv=${L.n};go('talk')"><span class="lvE">🎤</span><span style="flex:1"><b>Talk Time</b><div class="mut">Speak freely about topics · تكلم بحرية</div></span></button>`;
+}
+function openUnit(i){LS.unit=i;showUnit()}
+function showUnit(){
+  stopAll();const L=LEVELS[LS.lvl-1],u=curU();
+  $('app').innerHTML=backBar('LS.unit=null;showLevel()',`${u.e} ${u.t}`)+`<div class="card"><div class="acts">${ACTS.map(a=>{const s=P.done[ukey(a[0])]||0;return `<button class="act ${s?'done':''}" onclick="startAct('${a[0]}')"><b>${a[1]}</b>${a[2]}<div class="st">${s?'⭐'.repeat(s)+'☆'.repeat(3-s):'☆☆☆'}</div></button>`}).join('')}</div></div><div class="mut center">Finish all 5 activities to master this unit! 🏅</div>`;
+}
+function startAct(a){stopAll();({learn:actLearn,pick:actPick,say:actSay,read:actRead,build:actBuild})[a]()}
+
+function finish(key,ratio,o){
+  stopAll();const s=ratio>=.9?3:ratio>=.65?2:1;award(key,s);
+  $('app').innerHTML=`<div class="card center"><div style="font-size:60px">${s===3?'🏆':s===2?'👏':'💪'}</div><div class="word">${s===3?'Amazing!':s===2?'Great job!':'Good try!'}</div><div class="stars">${'⭐'.repeat(s)}${'☆'.repeat(3-s)}</div><div class="mut">${Math.round(ratio*100)}%</div><div class="row"><button class="btn" onclick="${o.again}">🔁 Again</button><button class="btn alt" onclick="${o.back}">⬅ Back</button></div></div>`;
+  beep(true);if(s===3)confetti();setTimeout(()=>say(s===3?'Amazing!':s===2?'Great job!':'Good try!'),250);
+}
+/* generic multiple-choice runner */
+function runMC(qs,o){
+  let i=0,score=0;const my=++tok;
+  const draw=()=>{
+    if(i>=qs.length)return finish(o.key,score/qs.length,{again:o.again,back:o.back});
+    const q=qs[i];
+    $('app').innerHTML=backBar(o.back,o.title)+`<div class="card center"><div class="mut">${i+1}/${qs.length}</div>${q.head}<div class="opts">${q.o.map((x,k)=>`<button class="opt ${q.ocls||''}" data-k="${k}">${x}</button>`).join('')}</div></div>`;
+    if(q.say)setTimeout(()=>{if(tok===my)say(q.say)},250);
+    const sb=$('qSay');if(sb)sb.onclick=()=>say(q.say);
+    document.querySelectorAll('#app .opt').forEach(b=>b.onclick=()=>{
+      const k=+b.dataset.k,ok=k===q.a;
+      document.querySelectorAll('#app .opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===q.a)x.classList.add('right')});
+      if(ok)score++;else b.classList.add('wrong');beep(ok);if(q.after)say(q.after);
+      setTimeout(()=>{if(tok===my){i++;draw()}},ok?1000:1700);
+    });
+  };draw();
+}
+
+/* ---- 1. Learn words ---- */
+function actLearn(){
+  const u=curU();let i=0;
+  const draw=()=>{const w=u.w[i];
+    $('app').innerHTML=backBar('showUnit()',u.t+' · Learn')+`<div class="card center"><div class="mut">${i+1}/${u.w.length}</div><div class="emo" id="lnE">${w[2]}</div><div class="word">${esc(w[0])}</div>${R.set.ar?`<div class="ar">${w[1]}</div>`:''}<div class="row"><button class="btn alt" id="lnSay">🔊 Listen</button></div><div class="row">${i>0?'<button class="btn alt" id="lnPrev">⬅</button>':''}<button class="btn" id="lnNext">${i<u.w.length-1?'Next ➡':'Finish ✅'}</button></div><div class="mut" style="margin-top:12px">Say it out loud! 🗣️</div></div>`;
+    say(w[0]);$('lnSay').onclick=$('lnE').onclick=()=>say(w[0]);
+    if($('lnPrev'))$('lnPrev').onclick=()=>{i--;draw()};
+    $('lnNext').onclick=()=>{if(i<u.w.length-1){i++;draw()}else finish(ukey('learn'),1,{again:'actLearn()',back:'showUnit()'})};
+  };draw();
+}
+/* ---- 2. Listen & pick ---- */
+function actPick(){
+  const u=curU(),L=LS.lvl,modes=MODES[L].filter(m=>m!=='ar'||R.set.ar),n=Math.min(8,u.w.length);
+  const qs=shuffle(u.w).slice(0,n).map(w=>{
+    const o=shuffle([w,...shuffle(u.w.filter(x=>x!==w)).slice(0,3)]),m=pick(modes),a=o.indexOf(w);
+    if(m==='pic')return{head:`<div class="mut">👂 Listen and tap the picture</div><div class="row"><button class="btn alt" id="qSay" style="font-size:34px">🔊</button></div>`,o:o.map(x=>x[2]),ocls:'emoopt',a,say:w[0]};
+    if(m==='word')return{head:`<div class="mut">👀 What is this?</div><div class="emo">${w[2]}</div>`,o:o.map(x=>esc(x[0])),a,after:w[0]};
+    return{head:`<div class="mut">🤔 What does it mean?</div><div class="word">${esc(w[0])}</div><div class="row"><button class="btn alt sm" id="qSay">🔊</button></div>`,o:o.map(x=>x[1]),a,say:w[0]};
+  });
+  runMC(qs,{key:ukey('pick'),again:'actPick()',back:'showUnit()',title:u.t+' · Listen & Pick'});
+}
+/* ---- 3. Say it ---- */
+function actSay(){
+  const u=curU();
+  const items=[...shuffle(u.w).slice(0,3).map(w=>({t:w[0],e:w[2],a:w[1],k:'w'})),...u.s.map(s=>({t:s[0],a:s[1],k:'s'}))];
+  let i=0,pts=0,tries=0;const my=++tok;
+  const draw=()=>{
+    if(i>=items.length)return finish(ukey('say'),pts/items.length,{again:'actSay()',back:'showUnit()'});
+    const it=items[i];tries=0;
+    $('app').innerHTML=backBar('showUnit()',u.t+' · Say It')+`<div class="card center"><div class="mut">${i+1}/${items.length} · Listen, then say it!</div>${it.e?`<div class="emo">${it.e}</div>`:''}<div class="${it.k==='w'?'word':'sent'}">${esc(it.t)}</div>${R.set.ar?`<div class="ar">${it.a}</div>`:''}
+     <div class="row"><button class="btn alt" id="syHear">🔊 Listen</button>${SR?'<button class="btn mic" id="syMic">🎤 Say it</button>':'<button class="btn" id="syDone">✅ I said it</button>'}</div><div id="syRes" class="box">${SR?'Tap 🎤 and speak':'Say it out loud, then tap ✅'}</div><div class="row"><button class="btn alt sm" id="sySkip">Skip ➡</button></div></div>`;
+    setTimeout(()=>{if(tok===my)say(it.t)},200);
+    const next=d=>setTimeout(()=>{if(tok===my){i++;draw()}},d);
+    $('syHear').onclick=()=>say(it.t);
+    $('sySkip').onclick=()=>{if(curRec){curRec.abort();curRec=null}next(50)};
+    if($('syDone'))$('syDone').onclick=()=>{pts+=.7;beep(true);next(300)};
+    if($('syMic'))$('syMic').onclick=()=>{
+      if(curRec){curRec.stop();return}
+      speechSynthesis.cancel();const mb=$('syMic');mb.textContent='⏹ Stop';mb.classList.add('rec');$('syRes').textContent='🎧 Listening…';
+      curRec=listen({max:6500,done:(f,alts)=>{
+        curRec=null;if(tok!==my)return;const b=$('syMic');if(b){b.textContent='🎤 Say it';b.classList.remove('rec')}
+        if(!f){tries++;$('syRes').textContent="I didn't hear you. Try again! 🎤";return}
+        const m=bestMatch(it.t,f,alts);
+        if(m.pct>=60){pts+=tries===0?1:.7;beep(true);$('syRes').innerHTML=`${marksHtml(m)}<br>✅ Super!`;say('Great!');next(1500)}
+        else{tries++;beep(false);$('syRes').innerHTML=`${marksHtml(m)}<br>🔁 Try again!${tries>=2?' (or Skip ➡)':''}`}
+      }});
+    };
+  };draw();
+}
+/* ---- 4. Read a story ---- */
+function actRead(){
+  const u=curU(),st=u.st,my=++tok;
+  const dict={};u.w.forEach(w=>{dict[w[0].toLowerCase()]=w[1]});
+  const body=st.x.map((s,si)=>`<div class="sent2" id="ss${si}"><button class="sp" data-si="${si}">🔊</button><span>${s.split(' ').map((w,wi)=>`<span class="wd" data-w="${esc(w)}" id="w${si}_${wi}">${esc(w)}</span>`).join(' ')}</span>${SR?`<button class="sp" data-mi="${si}" style="background:#ffe1e5">🎤</button>`:''}</div>`).join('');
+  $('app').innerHTML=backBar('showUnit()',u.t+' · Story')+`<div class="card"><div class="center"><div style="font-size:50px">${u.e}</div><div class="word" style="font-size:30px">${esc(st.t)}</div>${R.set.ar?`<div class="ar">${st.ar}</div>`:''}</div>
+   <div class="row"><button class="btn" id="rdAll">▶ Read to me</button><button class="btn alt" id="rdStop">⏹</button></div><div id="rdBody">${body}</div><div id="rdTip" class="mut center" style="min-height:22px">Tap any word to hear it 👆</div>
+   <div class="row"><button class="btn" id="rdQ" style="--c:#34c47a">Questions ➡</button></div></div>`;
+  const clearHl=()=>document.querySelectorAll('.wd.on').forEach(x=>x.classList.remove('on'));
+  const hl=(si,k)=>{clearHl();const e=$('w'+si+'_'+k);if(e)e.classList.add('on')};
+  function readSent(si,onlySay){
+    return new Promise(res=>{
+      document.querySelectorAll('.sent2').forEach(x=>x.classList.remove('cur'));$('ss'+si).classList.add('cur');
+      const text=st.x[si],words=text.split(' '),starts=[];let pos=0;words.forEach(w=>{starts.push(pos);pos+=w.length+1});
+      const u2=utter(text);let timers=[],gotB=false,done=false;
+      const fin=()=>{if(done)return;done=true;timers.forEach(clearTimeout);clearHl();res()};
+      u2.onboundary=e=>{if(e.name&&e.name!=='word')return;gotB=true;timers.forEach(clearTimeout);let k=0;starts.forEach((s,j)=>{if(e.charIndex>=s)k=j});hl(si,k)};
+      const per=Math.max(260,60000/(135*R.set.rate));
+      words.forEach((w,k)=>timers.push(setTimeout(()=>{if(!gotB)hl(si,k)},k*per+150)));
+      u2.onend=fin;u2.onerror=fin;setTimeout(fin,text.length*150+4000);
+      try{speechSynthesis.cancel();speechSynthesis.speak(u2)}catch(e){fin()}
+    });
+  }
+  $('rdAll').onclick=async()=>{stopAllSpeechOnly();const t=++tok;for(let si=0;si<st.x.length;si++){if(tok!==t)return;await readSent(si)}document.querySelectorAll('.sent2').forEach(x=>x.classList.remove('cur'))};
+  function stopAllSpeechOnly(){try{speechSynthesis.cancel()}catch(e){}tok++}
+  $('rdStop').onclick=()=>{stopAllSpeechOnly();clearHl();document.querySelectorAll('.sent2').forEach(x=>x.classList.remove('cur'))};
+  document.querySelectorAll('#rdBody [data-si]').forEach(b=>b.onclick=()=>{stopAllSpeechOnly();readSent(+b.dataset.si)});
+  document.querySelectorAll('#rdBody .wd').forEach(w=>w.onclick=()=>{
+    const clean=w.dataset.w.replace(/[^A-Za-z']/g,'');say(clean,.7);
+    const lc=clean.toLowerCase(),ar=dict[lc]||dict[lc.replace(/s$/,'')];
+    $('rdTip').innerHTML=`🔊 <b>${esc(clean)}</b>${ar&&R.set.ar?` = ${ar}`:''}`;
+  });
+  document.querySelectorAll('#rdBody [data-mi]').forEach(b=>b.onclick=()=>{
+    if(curRec){curRec.stop();return}
+    const si=+b.dataset.mi;try{speechSynthesis.cancel()}catch(e){}b.textContent='⏹';
+    curRec=listen({max:9000,done:(f,alts)=>{curRec=null;b.textContent='🎤';if(tok!==my&&!$('ss'+si))return;
+      const row=$('ss'+si);if(!row)return;if(!f){$('rdTip').textContent="I didn't hear you. Try again! 🎤";return}
+      const m=bestMatch(st.x[si],f,alts);row.classList.remove('good','bad');row.classList.add(m.pct>=60?'good':'bad');beep(m.pct>=60);
+      $('rdTip').innerHTML=m.pct>=60?'✅ Great reading!':'🔁 Try again — '+marksHtml(m);}});
+  });
+  $('rdQ').onclick=()=>{
+    stopAllSpeechOnly();
+    const qs=st.q.map(q=>{const o=shuffle(q[1].map((t,k)=>({t,ok:k===q[2]})));return{head:`<div class="sent">${esc(q[0])}</div><div class="row"><button class="btn alt sm" id="qSay">🔊</button></div>`,o:o.map(x=>esc(x.t)),a:o.findIndex(x=>x.ok),say:q[0]}});
+    runMC(qs,{key:ukey('read'),again:'actRead()',back:'showUnit()',title:st.t+' · Questions'});
+  };
+}
+/* ---- 5. Build a sentence ---- */
+function actBuild(){
+  const u=curU(),items=shuffle(u.s).slice(0,4);let i=0,pts=0;const my=++tok;
+  const draw=()=>{
+    if(i>=items.length)return finish(ukey('build'),pts/items.length,{again:'actBuild()',back:'showUnit()'});
+    const[en,ar]=items[i],words=en.split(' ');let bank,ans=[],tr=0;
+    const mk=()=>{let b=shuffle(words.map((w,k)=>({w,k})));for(let n=0;n<6&&b.map(t=>t.w).join(' ')===en;n++)b=shuffle(b);return b};
+    bank=mk();
+    $('app').innerHTML=backBar('showUnit()',u.t+' · Build')+`<div class="card center"><div class="mut">${i+1}/${items.length} · Put the words in order</div><div class="row"><button class="btn alt" id="bnHear">🔊 Listen</button></div>${R.set.ar?`<div class="ar">${ar}</div>`:''}<div id="bnAns" class="slotsA"></div><div id="bnBank" class="row"></div><div class="row"><button class="btn" id="bnCheck" style="--c:#34c47a">Check ✅</button><button class="btn alt" id="bnClr">↩ Clear</button></div><div id="bnMsg" class="mut" style="margin-top:8px;min-height:22px"></div></div>`;
+    setTimeout(()=>{if(tok===my)say(en)},250);
+    const paint=()=>{
+      $('bnAns').innerHTML=ans.length?ans.map((t,j)=>`<button class="tile" data-j="${j}">${esc(t.w)}</button>`).join(''):'<span class="mut">Tap the words in order…</span>';
+      $('bnBank').innerHTML=bank.map((t,j)=>`<button class="tile" data-b="${j}">${esc(t.w)}</button>`).join('');
+      document.querySelectorAll('#bnAns [data-j]').forEach(b=>b.onclick=()=>{bank.push(ans.splice(+b.dataset.j,1)[0]);paint()});
+      document.querySelectorAll('#bnBank [data-b]').forEach(b=>b.onclick=()=>{const t=bank.splice(+b.dataset.b,1)[0];say(t.w.replace(/[^A-Za-z']/g,''),.8);ans.push(t);paint()});
+    };paint();
+    $('bnHear').onclick=()=>say(en);
+    $('bnClr').onclick=()=>{bank=bank.concat(ans);ans=[];paint()};
+    $('bnCheck').onclick=()=>{
+      if(ans.length<words.length){$('bnMsg').textContent='Use all the words 😊';return}
+      if(ans.map(t=>t.w).join(' ')===en){pts+=tr===0?1:tr===1?.6:.3;beep(true);$('bnMsg').innerHTML='<span class="ok">✅ Perfect!</span>';say(en);setTimeout(()=>{if(tok===my){i++;draw()}},2200)}
+      else{tr++;beep(false);$('bnMsg').innerHTML='<span class="no">Try again! 💪</span>';const a=$('bnAns');a.style.animation='shake .35s';setTimeout(()=>a.style.animation='',400)}
+    };
+  };draw();
+}
+
+/* ================================================================
+   ABC
+   ================================================================ */
+const abcSeen=new Set();
+function showABC(){
+  $('app').innerHTML=`<div class="card center"><b style="font-size:21px">🔤 Letters & Sounds</b><div class="mut">Tap a letter to hear it!</div><div id="abcBig" style="min-height:130px;margin-top:8px"><div class="emo" style="font-size:72px">🔤</div></div></div>
+   <div class="card"><div class="abc">${ALPHA.map((a,i)=>`<button class="lt ${abcSeen.has(i)?'seen':''}" data-i="${i}"><b>${a[0]}${a[0].toLowerCase()}</b><span>${a[2]}</span></button>`).join('')}</div></div>
+   <div class="card"><div class="acts"><button class="act ${P.done['abc:find']?'done':''}" onclick="abcQuiz('find')"><b>👂</b>Find the Letter<div class="st">${'⭐'.repeat(P.done['abc:find']||0)||'☆☆☆'}</div></button><button class="act ${P.done['abc:sound']?'done':''}" onclick="abcQuiz('sound')"><b>🔡</b>First Sound<div class="st">${'⭐'.repeat(P.done['abc:sound']||0)||'☆☆☆'}</div></button></div></div>`;
+  document.querySelectorAll('.lt').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i,a=ALPHA[i];abcSeen.add(i);b.classList.add('seen');
+    $('abcBig').innerHTML=`<div style="font-size:84px;font-weight:700;line-height:1">${a[0]}${a[0].toLowerCase()}</div><div class="emo" style="font-size:64px">${a[2]}</div><div class="word" style="font-size:30px"><span style="color:var(--pri)">${a[1][0]}</span>${esc(a[1].slice(1))}</div>`;
+    say(`${a[0]}. ${a[1]}`,.75);
+    if(abcSeen.size>=20&&!P.done['abc:learn']){award('abc:learn',3);toast('⭐ ABC star!');}
+  });
+}
+function abcQuiz(kind){
+  const qs=shuffle(ALPHA).slice(0,8).map(a=>{
+    const o=shuffle([a,...shuffle(ALPHA.filter(x=>x!==a)).slice(0,3)]);
+    if(kind==='find')return{head:`<div class="mut">👂 Which letter is this?</div><div class="row"><button class="btn alt" id="qSay" style="font-size:34px">🔊</button></div>`,o:o.map(x=>x[0]),ocls:'letopt',a:o.indexOf(a),say:a[0]+'.'};
+    return{head:`<div class="mut">🔡 What letter does it start with?</div><div class="emo">${a[2]}</div><div class="row"><button class="btn alt" id="qSay">🔊</button></div>`,o:o.map(x=>x[0]),ocls:'letopt',a:o.indexOf(a),say:a[1]};
+  });
+  runMC(qs,{key:'abc:'+kind,again:`abcQuiz('${kind}')`,back:"go('abc')",title:kind==='find'?'Find the Letter':'First Sound'});
+}
+
+/* ================================================================
+   GAMES
+   ================================================================ */
+function showGames(){
+  $('app').innerHTML=`<div class="card center"><b style="font-size:21px">🎮 Games</b><div class="mut">Pick a level and play!</div><div class="row"><select id="gLv">${LEVELS.map(L=>`<option value="${L.n}" ${L.n===gLv?'selected':''}>${L.e} Level ${L.n} · ${L.name}</option>`).join('')}</select></div></div>
+   <div class="card"><div class="acts"><button class="act" onclick="gMemory()"><b>🃏</b>Memory Match<div class="st">${'⭐'.repeat(P.done['game:mem'+gLv]||0)||'☆☆☆'}</div></button><button class="act" onclick="gBee()"><b>🐝</b>Spelling Bee<div class="st">${'⭐'.repeat(P.done['game:bee'+gLv]||0)||'☆☆☆'}</div></button></div></div>`;
+  $('gLv').onchange=e=>{gLv=+e.target.value;showGames()};
+}
+const poolOf=n=>LEVELS[n-1].units.flatMap(u=>u.w);
+function gMemory(){
+  stopAll();const my=tok;let ws=shuffle(poolOf(gLv)).slice(0,6);
+  const cards=shuffle(ws.flatMap((w,k)=>[{k,t:'e',h:w[2]},{k,t:'w',h:w[0]}]));
+  let open=[],matched=0,moves=0,lock=false;
+  $('app').innerHTML=backBar("go('games')",'🃏 Memory Match')+`<div class="card center"><div class="mut">Match the picture with the word · Moves: <b id="mvN">0</b></div><div class="mem" id="memG"></div></div>`;
+  const paint=()=>{$('memG').innerHTML=cards.map((c,i)=>`<button class="mc ${c.f?'up':''} ${c.m?'m':''} ${c.t==='w'&&(c.f||c.m)&&c.h.length>8?'sw':''}" data-i="${i}">${c.f||c.m?esc(c.h):'❓'}</button>`).join('');
+    document.querySelectorAll('.mc').forEach(b=>b.onclick=()=>{
+      const c=cards[+b.dataset.i];if(lock||c.f||c.m)return;c.f=true;open.push(c);if(c.t==='w')say(c.h,.8);paint();
+      if(open.length===2){moves++;$('mvN').textContent=moves;lock=true;const[a,b2]=open;
+        if(a.k===b2.k&&a.t!==b2.t){setTimeout(()=>{a.m=b2.m=true;a.f=b2.f=false;open=[];lock=false;matched++;beep(true);paint();
+          if(matched===6){const s=moves<=8?3:moves<=12?2:1;setTimeout(()=>finish('game:mem'+gLv,s===3?1:s===2?.7:.4,{again:'gMemory()',back:"go('games')"}),700)}},600)}
+        else setTimeout(()=>{if(tok!==my)return;a.f=b2.f=false;open=[];lock=false;beep(false);paint()},1000)}
+    })};paint();
+}
+function gBee(){
+  stopAll();const my=tok;
+  const ws=shuffle(poolOf(gLv).filter(w=>/^[a-z]{3,8}$/i.test(w[0]))).slice(0,5);
+  if(ws.length<3){toast('Pick another level 🙂');return}
+  let i=0,pts=0;
+  const draw=()=>{
+    if(i>=ws.length)return finish('game:bee'+gLv,pts/ws.length,{again:'gBee()',back:"go('games')"});
+    const w=ws[i],word=w[0].toLowerCase();let bank=shuffle(word.split('').map((c,k)=>({c,k}))),ans=[],miss=0,lockB=false;
+    $('app').innerHTML=backBar("go('games')",'🐝 Spelling Bee')+`<div class="card center"><div class="mut">${i+1}/${ws.length} · Spell the word</div><div class="emo">${w[2]}</div><div class="row"><button class="btn alt" id="beeSay">🔊 Listen</button></div>${R.set.ar?`<div class="ar">${w[1]}</div>`:''}<div id="beeAns" class="slotsA"></div><div id="beeBank" class="row"></div><div class="row"><button class="btn alt sm" id="beeUndo">↩ Undo</button></div></div>`;
+    setTimeout(()=>{if(tok===my)say(word)},250);
+    const paint=()=>{
+      $('beeAns').innerHTML=word.split('').map((_,j)=>`<span class="tile" style="min-width:44px;text-align:center">${ans[j]?ans[j].c.toUpperCase():'_'}</span>`).join('');
+      $('beeBank').innerHTML=bank.map((t,j)=>`<button class="tile" data-b="${j}">${t.c.toUpperCase()}</button>`).join('');
+      document.querySelectorAll('#beeBank [data-b]').forEach(b=>b.onclick=()=>{
+        if(lockB)return;const t=bank.splice(+b.dataset.b,1)[0];ans.push(t);say(t.c,.8);paint();
+        if(ans.length===word.length){lockB=true;
+          if(ans.map(x=>x.c).join('')===word){pts+=miss===0?1:.5;beep(true);say(word);setTimeout(()=>{if(tok===my){i++;draw()}},1400)}
+          else{miss++;beep(false);setTimeout(()=>{bank=shuffle(bank.concat(ans));ans=[];lockB=false;paint()},800)}}
+      });
+    };paint();
+    $('beeSay').onclick=()=>say(word);
+    $('beeUndo').onclick=()=>{if(lockB||!ans.length)return;bank.push(ans.pop());paint()};
+  };draw();
+}
+
+/* ================================================================
+   TALK TIME
+   ================================================================ */
+function showTalk(){
+  if(!talkLv)talkLv=recLevel();const T=TALK[talkLv-1],p=T.p[talkIdx%T.p.length],best=P.done['talk:'+talkLv]||0;
+  $('app').innerHTML=`<div class="card center"><b style="font-size:21px">🎤 Talk Time</b><div class="row"><select id="tkLv">${LEVELS.map(L=>`<option value="${L.n}" ${L.n===talkLv?'selected':''}>${L.e} Level ${L.n} · ${L.name}</option>`).join('')}</select></div></div>
+   <div class="card center"><div class="mut">Goal: ${T.tgt}+ words in ${T.sec} seconds · Best: ${'⭐'.repeat(best)||'☆☆☆'}</div><div class="sent">${esc(p[0])}</div>${R.set.ar?`<div class="ar">${p[1]}</div>`:''}
+   <div class="row"><button class="btn alt" id="tkHear">🔊 Listen</button><button class="btn alt" id="tkNext">Next ▶</button></div>
+   <div class="row">${SR?'<button class="btn mic" id="tkMic">🎤 Start talking</button>':'<button class="btn" id="tkDone">✅ I spoke</button>'}<span class="pill" id="tkTime">0:00</span></div>
+   <div id="tkBox" class="box">${SR?'Tap 🎤 and talk — do not stop! Mistakes are okay.':'Say your answer out loud, then tap ✅'}</div><div id="tkRes"></div>
+   ${SR?'':'<div class="warn">المتصفح ده مش بيدعم التعرف على الصوت. افتح الموقع في Chrome أو Edge عشان تتسجل كلماتك.</div>'}</div>`;
+  $('tkLv').onchange=e=>{talkLv=+e.target.value;talkIdx=0;showTalk()};
+  $('tkHear').onclick=()=>say(p[0]);$('tkNext').onclick=()=>{talkIdx++;showTalk()};
+  if($('tkDone'))$('tkDone').onclick=()=>{award('talk:'+talkLv,1);beep(true);$('tkRes').innerHTML='<div class="word">👏 Good!</div>'};
+  if($('tkMic'))$('tkMic').onclick=()=>{
+    if(curRec){curRec.stop();return}
+    try{speechSynthesis.cancel()}catch(e){}
+    const t0=Date.now();const mb=$('tkMic');mb.textContent='⏹ Stop';mb.classList.add('rec');$('tkRes').innerHTML='';$('tkBox').textContent='🎧 Listening…';
+    const tick=setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);const e=$('tkTime');if(e)e.textContent=Math.floor(s/60)+':'+pad(s%60)},500);
+    const my=tok;
+    curRec=listen({cont:true,max:T.sec*1000,interim:(f,i)=>{const b=$('tkBox');if(b&&tok===my)b.innerHTML=esc(f)+'<span class="mut"> '+esc(i)+'</span>'},done:f=>{
+      clearInterval(tick);curRec=null;if(tok!==my)return;const secs=Math.max(1,(Date.now()-t0)/1000);
+      const b=$('tkMic');if(b){b.textContent='🎤 Start talking';b.classList.remove('rec')}
+      const w=norm(f).length;if(!w){$('tkBox').textContent="I didn't hear you. Try again! 🎤";return}
+      const r=w/T.tgt,s=r>=1?3:r>=.6?2:1;award('talk:'+talkLv,s);
+      $('tkBox').textContent=f;
+      $('tkRes').innerHTML=`<div class="stars">${'⭐'.repeat(s)}${'☆'.repeat(3-s)}</div><div class="stat"><div>🗣 ${w} words</div><div>⚡ ${Math.round(w/secs*60)} words/min</div></div><div class="mut" style="margin-top:8px">${s===3?'Wow! Great speaking! 🎉':'Try to say more next time — you can do it! 💪'}</div>`;
+      beep(true);if(s===3)confetti();say(s===3?'Wow! Great speaking!':'Good try!');
+    }});
+  };
+}
+
+/* ================================================================
+   ME + PARENTS
+   ================================================================ */
+function showMe(){
+  const last7=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-6+i);return[dkey(d).slice(5),P.act[dkey(d)]||0]});const mx=Math.max(3,...last7.map(x=>x[1]));
+  const next=TITLES.find(t=>t[0]>total());
+  $('app').innerHTML=`<div class="card center"><div style="font-size:64px">${P.av}</div><b style="font-size:24px">${esc(P.name)}</b><div class="word" style="font-size:26px">${titleOf(total())}</div>${next?`<div class="mut">${next[0]-total()} more ⭐ to become ${next[1]}</div>`:'<div class="mut">You reached the top! 👑</div>'}
+   <div class="stat"><div>⭐ ${total()} stars</div><div>🔥 ${streak()} day streak</div><div>📅 ${Object.keys(P.days).length} active days</div><div>🏅 ${Object.keys(P.done).filter(k=>k.startsWith('u')&&P.done[k]===3).length} perfect activities</div></div></div>
+   <div class="card"><b>Levels</b>${LEVELS.map(L=>{const p=lvProg(L.n);return `<div style="margin-top:10px">${L.e} <b>${L.name}</b> <span class="mut">${p.s}/${p.max}⭐</span><div class="bar sm"><i style="width:${p.s/p.max*100}%;background:${L.c}"></i></div></div>`}).join('')}</div>
+   <div class="card"><b>Activities this week</b><div class="chart">${last7.map(([d,v])=>`<div><i style="height:${Math.round(v/mx*80)}px"></i>${v}<br>${d}</div>`).join('')}</div></div>
+   <div class="card center"><button class="btn alt" onclick="parentGate()">👨‍👩‍👧 Parents area</button></div>`;
+}
+function parentGate(){
+  const a=2+Math.floor(Math.random()*7),b=3+Math.floor(Math.random()*6);
+  $('ov').classList.remove('hide');
+  $('ov').innerHTML=`<div class="card center"><h2 style="margin:0">👨‍👩‍👧 Parents only</h2><div class="mut">What is ${a} + ${b} ?</div><input id="pgIn" type="number" inputmode="numeric" style="width:120px;margin-top:10px;text-align:center"><div class="row"><button class="btn" id="pgOk">Open</button><button class="btn alt" id="pgX">Close</button></div></div>`;
+  $('pgX').onclick=()=>$('ov').classList.add('hide');
+  $('pgOk').onclick=()=>{if(+$('pgIn').value===a+b)showParent();else toast('❌ Try again')};
+}
+function showParent(){
+  $('ov').innerHTML=`<div class="card"><h2 style="margin:0 0 10px">👨‍👩‍👧 Parents area</h2>
+   <label style="display:flex;gap:10px;align-items:center;margin:10px 0"><input type="checkbox" id="pAr" ${R.set.ar?'checked':''} style="width:24px;height:24px"> Show Arabic hints · إظهار الترجمة العربية</label>
+   <div>Voice speed · سرعة الصوت</div><select id="pRate" style="width:100%;margin:6px 0 12px"><option value="0.65">Very slow</option><option value="0.8">Slow (kids)</option><option value="0.95">Normal</option></select>
+   <div>Start level for ${esc(P.name)} · مستوى البداية</div><select id="pStart" style="width:100%;margin:6px 0 12px">${LEVELS.map(L=>`<option value="${L.n}" ${L.n===P.start?'selected':''}>${L.e} Level ${L.n} · ${L.name}</option>`).join('')}</select>
+   <div class="row"><button class="btn" id="pAdd">➕ Add child</button><button class="btn alt" id="pExp">⬇ Export</button><button class="btn alt" id="pImp">⬆ Import</button><input type="file" id="pFile" accept=".json" class="hide"></div>
+   <div class="row"><button class="btn alt sm" id="pDel" style="color:var(--bad);border-color:var(--bad)">🗑 Delete ${esc(P.name)}</button></div>
+   <div class="mut" style="margin-top:10px">التقدم محفوظ على الجهاز ده. استخدم Export لعمل نسخة احتياطية أو لنقله لجهاز تاني.</div>
+   <div class="row"><button class="btn" id="pClose">Done</button></div></div>`;
+  $('pRate').value=String(R.set.rate);if(!$('pRate').value)$('pRate').value='0.8';
+  $('pAr').onchange=e=>{R.set.ar=e.target.checked;saveR()};
+  $('pRate').onchange=e=>{R.set.rate=+e.target.value;saveR();say('Hello! I am your English friend.')};
+  $('pStart').onchange=e=>{P.start=+e.target.value;saveR()};
+  $('pClose').onclick=()=>{$('ov').classList.add('hide');go(tab)};
+  $('pAdd').onclick=()=>showSetup(false);
+  $('pExp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(R)],{type:'application/json'}));a.download='english-kids-backup.json';a.click()};
+  $('pImp').onclick=()=>$('pFile').click();
+  $('pFile').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const x=JSON.parse(t);if(!x.profiles)throw 0;R=Object.assign(R,x);Object.values(R.profiles).forEach(fixP);saveR();location.reload()}catch(err){toast('Invalid file')}})};
+  $('pDel').onclick=()=>{if(!confirm('Delete '+P.name+' and all progress?'))return;delete R.profiles[P.id];const ids=Object.keys(R.profiles);saveR();if(ids.length){R.cur=ids[0];P=R.profiles[R.cur];saveR();$('ov').classList.add('hide');renderHdr();go('learn')}else location.reload()};
+}
+
+/* ================================================================
+   START
+   ================================================================ */
+(function init(){
+  Object.values(R.profiles).forEach(fixP);
+  const ids=Object.keys(R.profiles);
+  if(!ids.length){showSetup(true);return}
+  if(!R.profiles[R.cur])R.cur=ids[0];
+  P=R.profiles[R.cur];renderHdr();go('learn');
+  if(!window.speechSynthesis)toast('⚠️ المتصفح مش بيدعم الصوت');
+})();
+</script>
+</body>
+</html>
