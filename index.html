@@ -112,6 +112,7 @@ input,select{font-family:inherit;font-size:18px;padding:12px;border-radius:14px;
 <div id="ov" class="ov hide"></div>
 <div class="toast" id="toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
 /* ================================================================
    DATA  — 6 levels × units.  w = [word, arabic, emoji]  s = [sentence, arabic]
@@ -248,8 +249,47 @@ let R={profiles:{},cur:null,set:{ar:true,rate:0.8}};
 try{const x=JSON.parse(localStorage.getItem(K)||'{}');if(x&&typeof x==='object')R=Object.assign(R,x)}catch(e){}
 R.set=Object.assign({ar:true,rate:0.8},R.set||{});R.profiles=R.profiles||{};
 let P=null,tab='learn',LS={lvl:null,unit:null},tok=0,curRec=null,gLv=1,talkLv=null,talkIdx=0;
-const saveR=()=>{try{localStorage.setItem(K,JSON.stringify(R))}catch(e){}};
-function fixP(p){p.done=p.done||{};p.days=p.days||{};p.act=p.act||{};p.stars=p.stars||0;p.start=p.start||1;return p}
+let _sb=null,_user=null,_pushT=null;
+/* ====== CLOUD (Supabase) — change these 3 values to use another project ====== */
+const SB_URL='https://iafwpbqivypgzfxykbme.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhZndwYnFpdnlwZ3pmeHlrYm1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE2MzY4MzIsImV4cCI6MjEwNzIxMjgzMn0.TP4urxi1kDZlZVyo0Td6dWWSxmcTL74B6YjKLoCB5-w';
+const SB_TABLE='kids_progress';
+/* ============================================================================= */
+const persistLocal=()=>{try{localStorage.setItem(K,JSON.stringify(R))}catch(e){}};
+const saveR=()=>{R.upd=Date.now();if(P)P.upd=R.upd;persistLocal();schedPush()};
+function fixP(p){p.done=p.done||{};p.days=p.days||{};p.act=p.act||{};p.stars=p.stars||0;p.start=p.start||1;p.upd=p.upd||0;return p}
+const withTimeout=(p,ms)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error('timeout')),ms))]);
+function sbInit(){if(_sb||!window.supabase)return;try{_sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,lock:(n,t,fn)=>fn()}})}catch(e){console.error(e)}}
+function schedPush(){if(!_user||!_sb)return;clearTimeout(_pushT);_pushT=setTimeout(pushRemote,1500)}
+async function pushRemote(){
+  if(!_user||!_sb)return;clearTimeout(_pushT);
+  try{const{error}=await withTimeout(_sb.from(SB_TABLE).upsert({user_id:_user.id,data:R,updated_at:new Date().toISOString()}),10000);if(error)throw error}
+  catch(e){console.error('push failed',e);toast('⚠️ مش قادر يحفظ أونلاين، متحفوظ على الجهاز')}
+}
+function mergeP(x,y){
+  const n=(x.upd||0)>=(y.upd||0)?x:y,o=n===x?y:x,out=Object.assign({},o,n);
+  out.done=Object.assign({},o.done);Object.keys(n.done||{}).forEach(k=>{out.done[k]=Math.max(out.done[k]||0,n.done[k])});
+  out.days=Object.assign({},o.days,n.days);out.act=Object.assign({},o.act);Object.keys(n.act||{}).forEach(k=>{out.act[k]=Math.max(out.act[k]||0,n.act[k])});
+  out.stars=Object.values(out.done).reduce((s,v)=>s+v,0);out.upd=Math.max(x.upd||0,y.upd||0);return out;
+}
+function mergeR(a,b){
+  const del=[...new Set([...(a.del||[]),...(b.del||[])])];
+  const out={profiles:{},cur:a.cur||b.cur,set:(a.upd||0)>=(b.upd||0)?a.set:b.set,upd:Math.max(a.upd||0,b.upd||0),del,owner:a.owner||b.owner};
+  new Set([...Object.keys(a.profiles||{}),...Object.keys(b.profiles||{})]).forEach(id=>{
+    if(del.includes(id))return;const x=(a.profiles||{})[id],y=(b.profiles||{})[id];
+    out.profiles[id]=!x?y:!y?x:mergeP(x,y)});
+  return out;
+}
+async function pullAndMerge(){
+  const{data,error}=await withTimeout(_sb.from(SB_TABLE).select('data').eq('user_id',_user.id).maybeSingle(),9000);
+  if(error)throw error;const rem=data&&data.data;
+  if(R.owner&&R.owner!==_user.id){R=rem&&rem.profiles?rem:{profiles:{},cur:null,set:{ar:true,rate:0.8}}}
+  else if(rem&&rem.profiles){R=mergeR(R,rem)}
+  R.owner=_user.id;R.set=Object.assign({ar:true,rate:0.8},R.set||{});R.profiles=R.profiles||{};
+  Object.values(R.profiles).forEach(fixP);
+  const ids=Object.keys(R.profiles);if(!R.profiles[R.cur])R.cur=ids[0]||null;
+  P=R.cur?R.profiles[R.cur]:null;persistLocal();await pushRemote();
+}
 
 /* ================================================================
    HELPERS
@@ -644,8 +684,11 @@ function showParent(){
    <div>Start level for ${esc(P.name)} · مستوى البداية</div><select id="pStart" style="width:100%;margin:6px 0 12px">${LEVELS.map(L=>`<option value="${L.n}" ${L.n===P.start?'selected':''}>${L.e} Level ${L.n} · ${L.name}</option>`).join('')}</select>
    <div class="row"><button class="btn" id="pAdd">➕ Add child</button><button class="btn alt" id="pExp">⬇ Export</button><button class="btn alt" id="pImp">⬆ Import</button><input type="file" id="pFile" accept=".json" class="hide"></div>
    <div class="row"><button class="btn alt sm" id="pDel" style="color:var(--bad);border-color:var(--bad)">🗑 Delete ${esc(P.name)}</button></div>
-   <div class="mut" style="margin-top:10px">التقدم محفوظ على الجهاز ده. استخدم Export لعمل نسخة احتياطية أو لنقله لجهاز تاني.</div>
+   <div class="card" style="background:#f5f9ff;box-shadow:none;margin-top:14px"><b>☁️ Cloud sync</b><div class="mut" style="margin:6px 0">${_user?`Synced as <b>${esc(_user.email)}</b> · التقدم بيتحفظ ويظهر على أي جهاز`:'Not signed in · التقدم محفوظ على الجهاز ده بس'}</div><div class="row" style="margin-top:6px">${_user?'<button class="btn sm" id="pSync">🔄 Sync now</button><button class="btn alt sm" id="pOut">Sign out</button>':'<button class="btn sm" id="pIn">Sign in / Create account</button>'}</div></div>
    <div class="row"><button class="btn" id="pClose">Done</button></div></div>`;
+  if($('pIn'))$('pIn').onclick=()=>showAccount('later');
+  if($('pSync'))$('pSync').onclick=async()=>{try{await pullAndMerge();renderHdr();toast('✅ Synced')}catch(e){toast('⚠️ مفيش اتصال')}};
+  if($('pOut'))$('pOut').onclick=async()=>{await pushRemote();try{await _sb.auth.signOut()}catch(e){}location.reload()};
   $('pRate').value=String(R.set.rate);if(!$('pRate').value)$('pRate').value='0.8';
   $('pAr').onchange=e=>{R.set.ar=e.target.checked;saveR()};
   $('pRate').onchange=e=>{R.set.rate=+e.target.value;saveR();say('Hello! I am your English friend.')};
@@ -655,16 +698,74 @@ function showParent(){
   $('pExp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(R)],{type:'application/json'}));a.download='english-kids-backup.json';a.click()};
   $('pImp').onclick=()=>$('pFile').click();
   $('pFile').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const x=JSON.parse(t);if(!x.profiles)throw 0;R=Object.assign(R,x);Object.values(R.profiles).forEach(fixP);saveR();location.reload()}catch(err){toast('Invalid file')}})};
-  $('pDel').onclick=()=>{if(!confirm('Delete '+P.name+' and all progress?'))return;delete R.profiles[P.id];const ids=Object.keys(R.profiles);saveR();if(ids.length){R.cur=ids[0];P=R.profiles[R.cur];saveR();$('ov').classList.add('hide');renderHdr();go('learn')}else location.reload()};
+  $('pDel').onclick=()=>{if(!confirm('Delete '+P.name+' and all progress?'))return;R.del=(R.del||[]).concat(P.id);delete R.profiles[P.id];const ids=Object.keys(R.profiles);saveR();if(ids.length){R.cur=ids[0];P=R.profiles[R.cur];saveR();$('ov').classList.add('hide');renderHdr();go('learn')}else location.reload()};
 }
 
 /* ================================================================
    START
    ================================================================ */
-(function init(){
+const friendly=m=>/invalid login/i.test(m)?'الإيميل أو الباسورد غلط. لو أول مرة اضغط Create account.':/already registered|already been registered/i.test(m)?'الإيميل ده مسجل قبل كده، اضغط Sign in.':/rate limit/i.test(m)?'محاولات كتير، استنى شوية وجرب تاني.':/password/i.test(m)?'الباسورد لازم 6 حروف على الأقل.':m;
+function showAccount(mode){
+  const reset=mode==='reset';
+  $('ov').classList.remove('hide');
+  $('ov').innerHTML=`<div class="card center"><div style="font-size:60px">🦁☁️</div><h2 style="margin:4px 0">${reset?'New password':'English Kids'}</h2><div class="ar" id="acMsg">${reset?'اكتب باسورد جديد.':'سجّل دخول عشان تقدم الأطفال يتحفظ ويظهر على أي جهاز.'}</div>
+   ${reset?'<input id="acPw" type="password" placeholder="New password (6+)" autocomplete="new-password" style="width:100%;margin-top:10px">':'<input id="acEm" type="email" placeholder="your@email.com" autocomplete="username" style="width:100%;margin-top:10px"><input id="acPw" type="password" placeholder="Password (6+ characters)" autocomplete="current-password" style="width:100%;margin-top:10px">'}
+   <div class="row">${reset?'<button class="btn" id="acReset">Save password</button>':'<button class="btn" id="acIn">Sign in</button><button class="btn alt" id="acUp">Create account</button>'}</div>
+   ${reset?'':`<div class="row"><button class="btn alt sm" id="acForgot">Forgot password?</button></div><div class="row"><button class="btn alt" id="acSkip">${mode==='first'?'Continue without account ▶':'Close'}</button></div>`}</div>`;
+  const msg=t=>{$('acMsg').textContent=t};
+  if(!_sb){msg('مفيش اتصال بالإنترنت، تقدر تكمل من غير حساب.')}
+  const creds=()=>({email:$('acEm').value.trim(),password:$('acPw').value});
+  const busy=b=>document.querySelectorAll('#ov .btn').forEach(x=>x.disabled=b);
+  if($('acSkip'))$('acSkip').onclick=()=>{$('ov').classList.add('hide');if(!Object.keys(R.profiles).length)showSetup(true)};
+  if($('acIn'))$('acIn').onclick=async()=>{
+    if(!_sb)return;const c=creds();if(!c.email||c.password.length<6){msg('اكتب الإيميل وباسورد 6 حروف على الأقل.');return}
+    busy(true);msg('Signing in…');
+    try{const{data,error}=await withTimeout(_sb.auth.signInWithPassword(c),12000);if(error){msg('⚠️ '+friendly(error.message));return}await afterLogin(data.session.user)}
+    catch(e){msg('⚠️ '+friendly(e.message))}finally{busy(false)}};
+  if($('acUp'))$('acUp').onclick=async()=>{
+    if(!_sb)return;const c=creds();if(!c.email||c.password.length<6){msg('اكتب الإيميل وباسورد 6 حروف على الأقل.');return}
+    busy(true);msg('Creating account…');
+    try{const{data,error}=await withTimeout(_sb.auth.signUp(c),12000);if(error){msg('⚠️ '+friendly(error.message));return}
+      if(data&&data.session)await afterLogin(data.session.user);else msg('✅ اتعمل الحساب. افتح الإيميل واضغط على اللينك مرة واحدة، وبعدها Sign in.')}
+    catch(e){msg('⚠️ '+friendly(e.message))}finally{busy(false)}};
+  if($('acForgot'))$('acForgot').onclick=async()=>{
+    if(!_sb)return;const em=$('acEm').value.trim();if(!em){msg('اكتب إيميلك الأول وبعدين اضغط Forgot password.');return}
+    busy(true);msg('Sending…');
+    try{const{error}=await withTimeout(_sb.auth.resetPasswordForEmail(em,{redirectTo:location.href.split('#')[0].split('?')[0]}),12000);
+      msg(error?'⚠️ '+friendly(error.message):'✅ بعتنالك لينك تغيير الباسورد. افتحه من نفس المتصفح.')}
+    catch(e){msg('⚠️ '+friendly(e.message))}finally{busy(false)}};
+  if($('acReset'))$('acReset').onclick=async()=>{
+    const pw=$('acPw').value;if(pw.length<6){msg('الباسورد 6 حروف على الأقل.');return}
+    busy(true);msg('Saving…');
+    try{const{data,error}=await withTimeout(_sb.auth.updateUser({password:pw}),12000);if(error){msg('⚠️ '+friendly(error.message));return}
+      history.replaceState(null,'',location.pathname);await afterLogin(data.user)}
+    catch(e){msg('⚠️ '+friendly(e.message))}finally{busy(false)}};
+}
+async function afterLogin(user){
+  _user=user;const m=$('acMsg');if(m)m.textContent='Syncing…';
+  try{await pullAndMerge()}catch(e){console.error(e);toast('⚠️ مفيش اتصال، شغال بالنسخة اللي على الجهاز')}
+  $('ov').classList.add('hide');
+  if(!Object.keys(R.profiles).length){showSetup(true);return}
+  if(!R.profiles[R.cur])R.cur=Object.keys(R.profiles)[0];
+  P=R.profiles[R.cur];LS={lvl:null,unit:null};talkLv=null;renderHdr();go('learn');
+}
+document.addEventListener('visibilitychange',async()=>{
+  if(!_user||!P)return;
+  if(document.hidden){pushRemote();return}
+  try{const cur=R.cur;await pullAndMerge();if(R.profiles[cur])R.cur=cur;P=R.profiles[R.cur];renderHdr()}catch(e){}
+});
+(async function init(){
   Object.values(R.profiles).forEach(fixP);
+  const recovery=/type=recovery/.test(location.hash);
+  sbInit();
+  if(_sb&&!recovery){
+    try{const r=await withTimeout(_sb.auth.getSession(),7000);const ses=r.data&&r.data.session;
+      if(ses){_user=ses.user;try{await pullAndMerge()}catch(e){console.error(e);toast('⚠️ مفيش اتصال، شغال بالنسخة اللي على الجهاز')}}}
+    catch(e){console.error(e)}
+  }
+  if(recovery){showAccount('reset');return}
   const ids=Object.keys(R.profiles);
-  if(!ids.length){showSetup(true);return}
+  if(!ids.length){if(_user)showSetup(true);else showAccount('first');return}
   if(!R.profiles[R.cur])R.cur=ids[0];
   P=R.profiles[R.cur];renderHdr();go('learn');
   if(!window.speechSynthesis)toast('⚠️ المتصفح مش بيدعم الصوت');
